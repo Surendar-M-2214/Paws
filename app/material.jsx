@@ -13,4 +13,14 @@ import { ThemeProvider, Button ,
     Card,
     IconButton,} from "@material-tailwind/react";
  
-export { ThemeProvider, Button };
+export { ThemeProvider, Button, Navbar,
+    MobileNav,
+    Typography,
+
+    Menu,
+    MenuHandler,
+    MenuList,
+    MenuItem,
+    Avatar,
+    Card,
+    IconButton, };

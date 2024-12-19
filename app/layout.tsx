@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
 
-    <ThemeProvider>
+   
     <html lang="en">
       <body
         // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
@@ -27,6 +27,6 @@ export default function RootLayout({
         <Footer />
       </body>
     </html>
-    </ThemeProvider>
+   
   );
 }

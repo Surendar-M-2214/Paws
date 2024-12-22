@@ -1,10 +1,8 @@
-import type { NextConfig } from "next";
+import  { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
+const  NextConfig = {
   /* config options here */
-  env: {
-    BASE_URL: "http://localhost:3000/",
-  },
+ 
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
@@ -12,4 +10,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default NextConfig;

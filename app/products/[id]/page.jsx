@@ -1,6 +1,6 @@
 import React from 'react'
 import ProductDetails from '../../components/ProductDetails';
-export default async function Page({ params }) {
+export default async function Page({ params}) {
   
   const id = (await params).id;
   const data=(await fetch(`/api/products/${id}`));

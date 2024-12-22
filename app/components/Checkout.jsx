@@ -1,9 +1,9 @@
 'use client'
 
-import {React, useState} from 'react'
-import Link from 'next/link'
+import {React, useState, Suspense} from 'react'
 import { useSearchParams } from 'next/navigation'
 export default   function Checkout() {
+    <Suspense>
     const searchParams = useSearchParams()
     const price=searchParams.get('pr');
  const  qty=searchParams.get('q');
@@ -11,7 +11,7 @@ export default   function Checkout() {
   const  size=searchParams.get('clr');
 
 const id=searchParams.get('id');
-
+</Suspense>
 const [formData, setFormData] = useState({
     name: "",
     email: "",

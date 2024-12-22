@@ -1,9 +1,9 @@
 import React from 'react'
 import ProductDetails from '../../components/ProductDetails';
 export default async function Page({ params }) {
-  // http://localhost:3000/api/products/4714602000000037011
+  
   const id = (await params).id;
-  const data=(await fetch(`${process.env.BASE_URL}/api/products/${id}`));
+  const data=(await fetch(`/api/products/${id}`));
   const prod =await data.json();
   
   return( 

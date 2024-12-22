@@ -1,4 +1,4 @@
-export  async function POST(req,res) {
+export  async function POST(req) {
 
     const formData = await req.formData()
     console.log(formData)
@@ -51,12 +51,12 @@ export  async function POST(req,res) {
             headers: api_headers,
             body: JSON.stringify(payload)
         })
-        const posts = await resp.json()
+        
 
 
 
   
   
-    return Response.json(acc_token)
+    return Response.json(resp)
      
  }

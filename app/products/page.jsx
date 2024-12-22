@@ -4,10 +4,10 @@ import Prodlist from '../components/Prodlist'
 export const revalidate = 60;
 
 
-const data=await fetch(`http://localhost:3000/api/products`);
-const prod =await data.json();
-export default  function page() {
- 
+
+export default  async function page() {
+  const data=await fetch(`/api/products`);
+  const prod =await data.json();
 
 // console.log(prod);
   return (

@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import banner from "@/public/assets/banner.jpg"
-import Image from 'next/image'
+
 import Link from 'next/link'
 
 
@@ -9,14 +8,14 @@ export const dynamic = 'force-dynamic'
 
 
 
-const data=await fetch(`${process.env.BASE_URL}/api/products`);
+
+
+async function LatestProducts() {
+
+  const data=await fetch(`/api/products`);
 const prod =await data.json();
 
 console.log(prod);
-
- function LatestProducts() {
-
-  
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
          <h2 className="text-2xl font-bold tracking-tight text-gray-900">Latest Arrivals</h2>

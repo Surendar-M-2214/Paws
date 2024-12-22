@@ -1,8 +1,8 @@
-import  Metadata from "next";
+
 import ComplexNavbar from "./components/Nav1"
 import "./globals.css";
  import Footer  from "./components/Footer";
-import { ThemeProvider } from "./material";
+
 
 export const metadata = {
   title: "Create Next App",

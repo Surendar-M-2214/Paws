@@ -3,7 +3,7 @@ import ProductDetails from '../../components/ProductDetails';
 export default async function Page({ params}) {
   
   const id = (await params).id;
-  const data=(await fetch(`/api/products/${id}`));
+  const data=(await fetch(`http://localhost:3000/api/products/${id}`));
   const prod =await data.json();
   
   return( 

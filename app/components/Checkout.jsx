@@ -1,9 +1,9 @@
 'use client'
 
-import {React, useState, Suspense} from 'react'
+import {React, useState} from 'react'
 import { useSearchParams } from 'next/navigation'
 export default   function Checkout() {
-    <Suspense>
+    
     const searchParams = useSearchParams()
     const price=searchParams.get('pr');
  const  qty=searchParams.get('q');
@@ -11,7 +11,7 @@ export default   function Checkout() {
   const  size=searchParams.get('clr');
 
 const id=searchParams.get('id');
-</Suspense>
+
 const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -37,7 +37,7 @@ const handleInput = (e) => {
     // We don't want the page to refresh
     e.preventDefault()
 
-    const formURL = `/api/razor`
+    const formURL = `http://localhost:3000/api/razor`
     const data = new FormData()
 
     // Turn our formData state into data we can use with a form submission
@@ -78,7 +78,7 @@ console.log(data);
       }
       )
 
-      fetch(`/api/creator`, {
+      fetch(`http://localhost:3000/api/creator`, {
         method: "POST",
         body: data,
         headers: {

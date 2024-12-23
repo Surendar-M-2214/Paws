@@ -6,7 +6,7 @@ export const revalidate = 60;
 
 
 export default  async function page() {
-  const data=await fetch(`/api/products`);
+  const data=await fetch(`http://localhost:3000/api/products`);
   const prod =await data.json();
 
 // console.log(prod);

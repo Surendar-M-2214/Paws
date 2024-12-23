@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import Link from 'next/link'
 
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic'
 
 async function LatestProducts() {
 
-  const data=await fetch(`/api/products`);
+  const data=await fetch(`http://localhost:3000/api/products`);
 const prod =await data.json();
 
 console.log(prod);

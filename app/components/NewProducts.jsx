@@ -68,7 +68,7 @@ import React, { useEffect, useState } from 'react'
 
         const [post,setPost]=useState([]);
         useEffect(()=>{
-        fetch(`/api/products`)
+        fetch(`http://localhost:3000/api/products`)
         .then((res)=>res.json())
         .then(res => setPost(res))
         },[]);

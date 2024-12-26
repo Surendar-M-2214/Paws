@@ -1,17 +1,20 @@
 'use client'
 
-import {React, useState, Suspense} from 'react'
+import {React, useState} from 'react'
 import { useSearchParams } from 'next/navigation'
+
+
 export default   function Checkout() {
-    <Suspense>
+
+   
     const searchParams = useSearchParams()
     const price=searchParams.get('pr');
  const  qty=searchParams.get('q');
   const total=qty*price;
   const  size=searchParams.get('clr');
+  const id=searchParams.get('id');
 
-const id=searchParams.get('id');
-</Suspense>
+
 const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -78,7 +81,7 @@ console.log(data);
       }
       )
 
-      fetch(`/api/creator`, {
+      fetch(`api/creator`, {
         method: "POST",
         body: data,
         headers: {

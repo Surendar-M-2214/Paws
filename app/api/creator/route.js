@@ -46,16 +46,16 @@ export  async function POST(req) {
     }
     
     
-        const resp = await fetch("https://www.zohoapis.com/creator/v2.1/data/zdchackathon7851/e-commerce/form/Orders", {
+        const res = await fetch("https://www.zohoapis.com/creator/v2.1/data/zdchackathon7851/e-commerce/form/Orders", {
             method: "POST",
             headers: api_headers,
             body: JSON.stringify(payload)
         })
-        
+     const  resp=await res.json();
 
-
-
-  
+  console.log(resp);
+//   const errors = resp.result[0]?.error;
+//   console.log("Errors:", errors);
   
     return Response.json(resp)
      

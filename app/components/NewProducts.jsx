@@ -2,7 +2,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 
-
+import useSWR from 'swr'
 
     // const products = [
     //     {
@@ -62,19 +62,20 @@ import React, { useEffect, useState } from 'react'
     //     }
     //     // More products...
     //   ]
-      
+    const fetcher = (url) => fetch(url).then((r) => r.json())
       export default function NewProducts() {
 
 
-        const [post,setPost]=useState([]);
-        useEffect(()=>{
-        fetch(`/api/products`)
-        .then((res)=>res.json())
-        .then(res => setPost(res))
-        },[]);
+        const { data, error, isLoading } = useSWR(
+          `${process.env.BASE_URL}api/products`,
+          fetcher
+        )
+       
+        if (isLoading) return <div>Loading...</div>
+        if (error) return <div>Error: {error.message}</div>
 console.log(process.env.BASE_URL);
-const newpost=post.slice(0,4);
-console.log(newpost)
+const newpost=data.slice(0,4);
+console.log(data)
         return (
           <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">

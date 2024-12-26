@@ -1,7 +1,7 @@
 import React from 'react'
-import offer from "@/public/assets/offer1.png"
+
 import Image from 'next/image'
-import banner from "@/public/assets/banner.jpg"
+import banner from "../../public/assets/banner.jpg"
 function Storefront() {
   return (
     <div className="hero bg-white min-h-screen">

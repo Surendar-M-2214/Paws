@@ -1,11 +1,14 @@
-import React from 'react'
+import {React,Suspense} from 'react'
 import Checkout from '../components/Checkout'
 
 
 
 function page() {
   return (
-    <Checkout />
+    <Suspense>
+      <Checkout />
+    </Suspense>
+    
   )
 }
 

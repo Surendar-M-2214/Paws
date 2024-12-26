@@ -1,17 +1,36 @@
-import React from 'react'
+"use client"
+
+import {React,useEffect,useState} from 'react'
 import ProductDetails from '../../components/ProductDetails';
-export default async function Page({ params}) {
-  
-  const id = (await params).id;
-  const data=(await fetch(`/api/products/${id}`));
-  const prod =await data.json();
+import useSWR from 'swr'
+
+const fetcher = (url) => fetch(url).then((r) => r.json())
+export default  function Page({ params}) {
+  const [id, setId] = useState(null);
+ 
+  useEffect(() => {
+    // Resolve the `params` promise
+    (async () => {
+      const resolvedParams = await params; // Await params here
+      setId(resolvedParams.id);
+    })();
+  }, [params]);
+
+
+const { data, error, isLoading } = useSWR(
+  `${process.env.BASE_URL}api/products/${id}`,
+  fetcher
+)
+
+if (isLoading) return <div>Loading...</div>
+if (error) return <div>Error: {error.message}</div>
   
   return( 
   <>
-  {prod.map((res)=>
+  {data.map((res)=>
     <ProductDetails
     id={res.Products.RECID}
-    
+    key={res.Products.RECID}
     size={res.Products.Size}
     name={res.Products.Product_Name}
     Image={res.Products.Image1}

@@ -3,11 +3,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import pic1 from "../../public/assets/images/jordan-1-product-img.jpeg";
-import pic2 from "../../public/assets/images/jordan-1-banner-3.png";
-import pic3 from "../../public/assets/images/jordan-1-banner-2.png";
-import pic4 from "../../public/assets/images/jordan-1-banner.png";
-import pic5 from "../../public/assets/images/jordan-1-mid.jpg";
+
 import Link from "next/link";
 const  ProductDetails =  (props) => {
 console.log(process.env.BASE_URL)
@@ -27,7 +23,7 @@ console.log(price);
   const ssdOptions = ["256GB", "512GB", "1TB"];
 
   return (
-    <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div key={props.key} className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
       {/* Left Section: Product Images */}
       <div>
         {/* Main Product Image */}

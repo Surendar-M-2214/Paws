@@ -1,26 +1,32 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import {React} from 'react'
 
 import Link from 'next/link'
-
+import useSWR from 'swr'
 
 export const dynamic = 'force-dynamic'
 
 
 
+const fetcher = (url) => fetch(url).then((r) => r.json())
 
+ function LatestProducts(){
 
-async function LatestProducts() {
+//   const data=await fetch(`http://localhost:3000/api/products`);
+// const prod =await data.json();
+const { data ,error,isLoading} = useSWR(
+  `${process.env.BASE_URL}api/products`,
+  fetcher
+);
+console.log(data);
+if (isLoading) return <div>Loading...</div>
+if (error) return <div>Error: {error.message}</div>
 
-  const data=await fetch(`/api/products`);
-const prod =await data.json();
-
-console.log(prod);
   return (
     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
          <h2 className="text-2xl font-bold tracking-tight text-gray-900">Latest Arrivals</h2>
     <div className="carousel carousel-center  rounded-box max-w-full space-x-4 p-4">
-  {prod.map((product) => (
+  {data.map((product) => (
 <div  key={product.Products.RECID} className='carousel-item'>
 <div  className="w-full max-w-80 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a href="/">

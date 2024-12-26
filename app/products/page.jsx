@@ -1,15 +1,31 @@
-import React from 'react'
+
+
+"use client"
+import {React,useEffect,useState} from 'react'
+import useSWR from 'swr'
 import Prodlist from '../components/Prodlist'
 
-export const revalidate = 60;
+
+const fetcher = (url) => fetch(url).then((r) => r.json())
 
 
+export default   function page() {
+ 
+  const { data, error, isLoading } = useSWR(
+    `${process.env.BASE_URL}api/products`,
+    fetcher
+  )
+ 
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
+        //  const [post,setPost]=useState([]);
+        //  useEffect(()=>{
+        //  fetch(`http://localhost:3000/api/products`)
+        //  .then((res)=>res.json())
+        //  .then(res => setPost(res))
+        //  },[]);
 
-export default  async function page() {
-  const data=await fetch(`/api/products`);
-  const prod =await data.json();
-
-// console.log(prod);
+console.log(data);
   return (
    <>
    <div className="w-full py-5 ">
@@ -20,7 +36,7 @@ export default  async function page() {
       <div className="flex flex-col gap-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         
-   {prod.map((pr)=>(
+   {data.map((pr)=>(
     <Prodlist
     id={pr.Products.RECID}
     key={pr.Products.RECID}

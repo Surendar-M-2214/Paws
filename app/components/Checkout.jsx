@@ -1,6 +1,7 @@
 'use client'
 
 import {React, useState} from 'react'
+import {React, useState} from 'react'
 import { useSearchParams } from 'next/navigation'
 
 
@@ -40,7 +41,7 @@ const handleInput = (e) => {
     // We don't want the page to refresh
     e.preventDefault()
 
-    const formURL = `/api/razor`
+    const formURL = `http://localhost:3000/api/razor`
     const data = new FormData()
 
     // Turn our formData state into data we can use with a form submission

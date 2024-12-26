@@ -1,4 +1,5 @@
 import {React,Suspense} from 'react'
+import {React,Suspense} from 'react'
 import Checkout from '../components/Checkout'
 
 

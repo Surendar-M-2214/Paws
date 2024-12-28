@@ -40,7 +40,7 @@ const handleInput = (e) => {
     // We don't want the page to refresh
     e.preventDefault()
 
-    const formURL = `http://localhost:3000/api/razor`
+    const formURL = `${process.env.BASE_URL}api/razor`
     const data = new FormData()
 
     // Turn our formData state into data we can use with a form submission
@@ -60,15 +60,43 @@ console.log(data);
       body: data,
       headers: {
         'accept': 'application/json',
+         'Access-Control-Allow-Origin':'*'
       },
       
     }).then(async (res) => {
-        const data = await res.json();
-        console.log(data);
-        if (data?.link) {
+        const det = await res.json();
+    
+
+
+
+        const  pay_id=det.id;
+        data.append("pay_id",pay_id);
+          
+          
+            fetch(`api/creator`, {
+            mode: 'cors',
+            method: "POST",
+            body: data,
+            headers: {
+              'accept': 'application/json',
+              'Access-Control-Allow-Origin':'*'
+            }
+          }
+          ).then(async(rec)=>{
+  
+            const creator_resp= await rec.json()
+            console.log(JSON.stringify(creator_resp,null,2))
+            return creator_resp.creator_resp.result[0].data.ID
+          })
+
+
+
+
+
+        if (det?.link) {
           // Redirect user to the Razorpay payment link
          
-          window.location.href = data.link;
+          window.location.href = det.link;
         } else {
           alert('Error generating payment link');
         }})
@@ -77,19 +105,10 @@ console.log(data);
         alert('Failed to create payment link');
       }) 
       .finally (()=>{
-        setLoading(false);
+        setLoading(true);
       }
       )
-      const creator= await  fetch(`api/payment-success`, {
-        method: "POST",
-        body: data,
-        headers: {
-          'accept': 'application/json',
-        }
-      }
-      )
-      
-      const creator_resp= await creator.json()
+     
      
     
   }

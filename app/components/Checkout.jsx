@@ -2,7 +2,7 @@
 
 import {React, useState} from 'react'
 import { useSearchParams } from 'next/navigation'
-import { json } from 'stream/consumers';
+
 
 
 export default    function Checkout() {

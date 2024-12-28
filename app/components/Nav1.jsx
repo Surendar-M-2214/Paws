@@ -13,7 +13,7 @@ function Nav1() {
 
       <div className="flex items-center space-x-10">
         
-      <Link href="/home">
+      <Link href="/">
         <div className="flex items-center space-x-0">  
           <Image src={logo} className=' block w-12 '  alt="logo" />
             <span className="block w-auto ml-0 text-2xl font-extrabold h-8 dark:hidden">Tee-Hub</span>

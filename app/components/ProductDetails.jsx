@@ -17,7 +17,7 @@ console.log(price);
 
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("M");
-  const [selectedSSD, setSelectedSSD] = useState("256GB");
+  const [image, setImage] = useState(props.Image);
 
   const colors = ["M", "S", "L", "XL"];
   const ssdOptions = ["256GB", "512GB", "1TB"];
@@ -28,17 +28,17 @@ console.log(price);
       <div>
         {/* Main Product Image */}
         <div className="aspect-w-16 aspect-h-[500px] bg-gray-300 flex items-center justify-center rounded-lg">
-         <img src={props.Image} alt="main pic" className="w-auto" />
+         <img src={image} alt="main pic" className="w-1/2" />
         </div>
 
         {/* Thumbnail Images */}
         <div className="flex mt-4 space-x-2 overflow-x-auto">
-          {[props.Image2,props.Image3,props.Image4].map((_, index) => (
+          {[props.Image,props.Image2,props.Image3,props.Image4].map((_, index) => (
             <div
               key={index}
               className="h-16 w-16 bg-gray-200 rounded-lg flex-shrink-0 flex items-center justify-center"
             >
-              <img src={_} alt="main pic" className="" />
+              <img src={_} onClick={()=>{setImage(_)}}alt="main pic" className="" />
             </div>
           ))}
         </div>
@@ -105,7 +105,9 @@ console.log(price);
             clr:selectedColor,
             id:props.id
           }
-        }}>
+        }}
+    
+        >
           <button  className="w-full md:w-auto bg-black text-white py-2 px-5 rounded-md hover:bg-gray-700">
           <p className="px-2 text-sm">  Buy Now</p>
           </button>
@@ -115,28 +117,7 @@ console.log(price);
           </button>
         </div>
 
-        {/* Extra Warranty */}
-       {/* Shipping Options */}
-       <div>
-          <p className="font-medium text-gray-700">Pickup</p>
-          <div className="flex flex-col mt-2 space-y-2 text-gray-700">
-            <label className="flex items-center">
-              <input type="radio" name="pickup" className="mr-2" />
-              Shipping - ₹19 (Arrives Nov 17)
-            </label>
-            <label className="flex items-center">
-              <input type="radio" name="pickup" className="mr-2" />
-              Pickup from Flowbox - ₹9{" "}
-              <a href="#" className="text-blue-500 underline">
-                Pick a Flowbox near you
-              </a>
-            </label>
-            <label className="flex items-center text-gray-400">
-              <input type="radio" name="pickup" disabled className="mr-2" />
-              Pickup from our store (Not available)
-            </label>
-          </div>
-        </div>
+       
       </div>
     </div>
   );

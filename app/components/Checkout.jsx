@@ -1,11 +1,11 @@
 'use client'
 
 import {React, useState} from 'react'
-import {React, useState} from 'react'
+
 import { useSearchParams } from 'next/navigation'
 
 
-export default   function Checkout() {
+export default    function Checkout() {
 
    
     const searchParams = useSearchParams()
@@ -15,7 +15,7 @@ export default   function Checkout() {
   const  size=searchParams.get('clr');
   const id=searchParams.get('id');
 
-
+console.log(id+" "+qty+" "+size)
 const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -37,7 +37,7 @@ const handleInput = (e) => {
     }));
   }
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     // We don't want the page to refresh
     e.preventDefault()
 
@@ -81,19 +81,19 @@ console.log(data);
         setLoading(false);
       }
       )
-
-      fetch(`api/creator`, {
+      const creator= await  fetch(`api/payment-success`, {
         method: "POST",
         body: data,
         headers: {
           'accept': 'application/json',
         }
-    }
-    )
+      }
+      )
+      
+      const creator_resp= await creator.json()
+     
     
   }
-
-
 
 
 

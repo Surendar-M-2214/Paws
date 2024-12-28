@@ -2,8 +2,8 @@
 import Razorpay from 'razorpay';
 
 const razorpay = new Razorpay({
-  key_id:'rzp_test_3jtKk6LuZZhrXP',
-  key_secret: '2QNuOh0Q0RCnx2vvFyBE2ilk',
+  key_id:'rzp_test_ooDbo4fE9guQSO',
+  key_secret: 'VR27qWWcUDS52g41I35gUjpu',
 });
 
 export async function POST(req) {
@@ -12,6 +12,11 @@ export async function POST(req) {
 const name=formData.get("name");
 const email=formData.get("email");
 const amount=formData.get("amount");
+const address=formData.get("address");
+const size=formData.get("size");
+const number=formData.get("number");
+const id=formData.get("id");
+const qty=formData.get("qty");
 console.log(name+" "+" "+email+" "+amount)
   // Create Razorpay payment link
   try {
@@ -24,6 +29,16 @@ console.log(name+" "+" "+email+" "+amount)
     
     email: email
   },
+  notes: {
+    name:name,
+    email:email,
+    address:address,
+    size:size,
+    number:number,
+    id:id,
+    qty:qty,
+  },
+
       notify: {
         sms: true,
         email: true,

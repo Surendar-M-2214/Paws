@@ -17,6 +17,7 @@
     "clsx": "^2.1.1",
     "dotenv": "^16.4.7",
     "flowbite-react": "^0.10.2",
+    "https-proxy-agent": "^7.0.6",
     "jsconfig.json": "^2.3.3",
     "lucide-react": "^0.468.0",
     "next": "15.1.0",
@@ -26,7 +27,8 @@
     "react-dom": "^19.0.0",
     "swr": "^2.3.0",
     "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zcatalyst-sdk-node": "^2.5.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

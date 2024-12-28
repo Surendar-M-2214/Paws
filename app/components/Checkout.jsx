@@ -2,6 +2,7 @@
 
 import {React, useState} from 'react'
 import { useSearchParams } from 'next/navigation'
+import { json } from 'stream/consumers';
 
 
 export default    function Checkout() {
@@ -66,7 +67,7 @@ console.log(data);
     }).then(async (res) => {
         const det = await res.json();
     
-
+console.log(JSON.stringify(det,null,2));
 
 
         const  pay_id=det.id;
@@ -98,6 +99,7 @@ console.log(data);
          
           window.location.href = det.link;
         } else {
+
           alert('Error generating payment link');
         }})
     .catch( (error) =>{

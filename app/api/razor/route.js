@@ -17,7 +17,7 @@ const size=formData.get("size");
 const number=formData.get("number");
 const id=formData.get("id");
 const qty=formData.get("qty");
-const ref_id=formData.get("ref_id");
+
 console.log(name+" "+" "+email+" "+amount)
   // Create Razorpay payment link
   try {
@@ -48,7 +48,7 @@ console.log(name+" "+" "+email+" "+amount)
   callback_method: "get"
     });
 console.log( paymentLink);
-    return new Response(JSON.stringify({ link: paymentLink.short_url,id:paymentLink.id }), { status: 200 });
+    return new Response(JSON.stringify({ res:paymentLink,link: paymentLink.short_url,id:paymentLink.id }), { status: 200 });
   } catch (error) {
     console.error('Error creating payment link', error);
     return new Response(JSON.stringify({ error: 'Error creating payment link' }), { status: 500 });

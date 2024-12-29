@@ -28,7 +28,8 @@
     "swr": "^2.3.0",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
-    "zcatalyst-sdk-node": "^2.5.1"
+    "zcatalyst-sdk-node": "^2.5.1",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

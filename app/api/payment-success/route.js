@@ -22,7 +22,7 @@ export async function GET(req) {
                 })
                 const tknres = await tkn.json()
              const acc_token =tknres.access_token;
-        
+        console.log(acc_token)
         
                 let payload = {
                     "criteria": "PAY_LINK_ID == "+razorpay_payment_link_id ,
@@ -50,7 +50,7 @@ export async function GET(req) {
                 }
                 
                 try {
-                    let response = fetch("https://www.zohoapis.in/creator/v2.1/data/zdchackathon7851/e-commerce/report/All_Orders", {
+                    let response = fetch("https://www.zohoapis.com/creator/v2.1/data/zdchackathon7851/e-commerce/report/All_Orders", {
                         method: "PATCH",
                         headers: api_headers,
                         body: JSON.stringify(payload)

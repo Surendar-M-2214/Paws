@@ -18,7 +18,6 @@ const { data ,error,isLoading} = useSWR(
   `${process.env.BASE_URL}api/products`,
   fetcher
 );
-console.log(data);
 if (isLoading) return <div>Loading...</div>
 if (error) return <div>Error: {error.message}</div>
 

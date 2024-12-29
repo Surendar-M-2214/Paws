@@ -3,27 +3,48 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import useCartStore from "../../lib/cartStore";
 
 import Link from "next/link";
 const  ProductDetails =  (props) => {
+  const addToCart = useCartStore((state) => state.addToCart);
 console.log(process.env.BASE_URL)
-const buy=async()=>{
-console.log(quantity);
-const price=props.Price;
-console.log(price);
 
-
-}
-
+const [showPopup, setShowPopup] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [selectedColor, setSelectedColor] = useState("M");
   const [image, setImage] = useState(props.Image);
 
   const colors = ["M", "S", "L", "XL"];
-  const ssdOptions = ["256GB", "512GB", "1TB"];
+
+  const handleAddToCart = () => {
+    setShowPopup(true);
+    const productDetails = {
+      id: props.id,
+      name: props.name,
+      price: props.Price,
+      quantity: quantity,
+      size: selectedColor,
+      image: image,
+      vendor:props.vendor
+    };
+  
+    addToCart(productDetails);
+  
+
+       // Show popup
+       
+
+       // Hide popup after 3 seconds
+       setTimeout(() => {
+         setShowPopup(false);
+       }, 3000);
+
+  };
+  
 
   return (
-    <div key={props.key} className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div key={props.id} className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-2 gap-8">
       {/* Left Section: Product Images */}
       <div>
         {/* Main Product Image */}
@@ -78,7 +99,7 @@ console.log(price);
               <button
                 key={color}
                 onClick={() => {setSelectedColor(color)
-                  val=colors
+                 
                 }}
                 className={`px-4 py-1 border rounded-full text-sm ${
                   selectedColor === color
@@ -97,7 +118,7 @@ console.log(price);
 
         {/* Buttons */}
         <div className="flex flex-col md:flex-row gap-4">
-          <Link href={{
+          {/* <Link href={{
           pathname: '/Checkout',
           query: {
             q: quantity,
@@ -107,14 +128,26 @@ console.log(price);
           }
         }}
     
-        >
-          <button  className="w-full md:w-auto bg-black text-white py-2 px-5 rounded-md hover:bg-gray-700">
-          <p className="px-2 text-sm">  Buy Now</p>
+        > */}
+          <button onClick={handleAddToCart} className="w-full md:w-auto bg-black text-white py-2 px-5 rounded-md hover:bg-gray-700">
+          <p className="px-2 text-sm">Add to Cart</p>
           </button>
-          </Link>
+          {/* </Link> */}
           <button className="w-full md:w-auto border border-gray-300 text-gray-700  rounded-md hover:bg-gray-100">
           <p className="px-2 text-sm">  Add to Favourites</p>
           </button>
+                {/* Popup */}
+      {showPopup && (
+        <div className="absolute top-4 right-4 z-50 flex items-center space-x-2 rounded bg-green-500 px-4 py-2 text-white shadow-lg transition-opacity duration-300">
+          <span>Item added to cart!</span>
+          <button
+            onClick={() => setShowPopup(false)}
+            className="text-sm font-bold hover:opacity-70"
+          >
+            ✕
+          </button>
+        </div>
+      )}
         </div>
 
        

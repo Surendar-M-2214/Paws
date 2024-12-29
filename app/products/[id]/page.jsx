@@ -2,6 +2,7 @@
 
 import {React,useEffect,useState} from 'react'
 import ProductDetails from '../../components/ProductDetails';
+
 import useSWR from 'swr'
 
 const fetcher = (url) => fetch(url).then((r) => r.json())
@@ -30,7 +31,7 @@ if (error) return <div>Error: {error.message}</div>
   {data.map((res)=>
     <ProductDetails
     id={res.Products.RECID}
-    key={res.Products.RECID}
+  
     size={res.Products.Size}
     name={res.Products.Product_Name}
     Image={res.Products.Image1}
@@ -39,6 +40,7 @@ if (error) return <div>Error: {error.message}</div>
     Image4={res.Products.Image4}
     Price={res.Products.Price}
     stock={res.Products.Stock_Avail}
+    vendor={res.Products.CREATOR_USER}
     />)}
   
   </>

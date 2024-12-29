@@ -1,31 +1,72 @@
 'use client'
 
-import {React, useState} from 'react'
+import {React, useState,useEffect} from 'react'
 import { useSearchParams } from 'next/navigation'
-
 
 
 export default    function Checkout() {
 
-   
-    const searchParams = useSearchParams()
-    const price=searchParams.get('pr');
- const  qty=searchParams.get('q');
-  const total=qty*price;
-  const  size=searchParams.get('clr');
-  const id=searchParams.get('id');
-
-console.log(id+" "+qty+" "+size)
+  const[prod,setProd]=useState([]);
+  const [errors, setErrors] = useState({});
+  const [total, setTotal] = useState(0);
+      
 const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    address: "",
-    number:""
-  });
+  name: "",
+  email: "",
+  address: "",
+  number:""
+});
 
 
-  const [loading, setLoading] = useState(false);
-  const [paymentLink, setPaymentLink] = useState(null);
+const [loading, setLoading] = useState(false);
+const [paymentLink, setPaymentLink] = useState(null);
+  useEffect(() => {
+    const cdet = localStorage.getItem("cart_det"); 
+    if (cdet) {
+      const cartDetails = JSON.parse(cdet); 
+      setProd(cartDetails);
+
+      // Calculate the total price
+      const totalPrice = cartDetails.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+      setTotal(totalPrice); 
+    }
+  }, []);
+
+
+
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name) {
+      newErrors.name = 'Name is required';
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = 'Enter a valid email';
+    }
+
+    if (!formData.address) {
+      newErrors.address = 'Address is required';
+    }
+
+    if (!formData.number) {
+      newErrors.number = 'Phone number is required';
+    } else if (formData.number.length !== 10) {
+      newErrors.number = 'Phone number must be 10 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+
+
+
+
+
 
 const handleInput = (e) => {
     const fieldName = e.target.name;
@@ -36,64 +77,39 @@ const handleInput = (e) => {
       [fieldName]: fieldValue
     }));
   }
+ 
 
   const submitForm = async (e) => {
-    // We don't want the page to refresh
+
     e.preventDefault()
+
+    if (!validateForm()) {
+      return;
+    }
+
+
 
     const formURL = `${process.env.BASE_URL}api/razor`
     const data = new FormData()
 
-    // Turn our formData state into data we can use with a form submission
+    const cr_data=[];
     Object.entries(formData).forEach(([key, value]) => {
       data.append(key, value);
     })
-    data.append("amount",total);
+    data.append("amount",total-500);
   
-    data.append("size",size);
-    data.append("id",id);
-    data.append("qty",qty);
-    
-console.log(data);
-    // POST the data to the URL of the form
     fetch(formURL, {
       method: "POST",
       body: data,
       headers: {
         'accept': 'application/json',
          'Access-Control-Allow-Origin':'*'
-      },
-      
-    }).then(async (res) => {
+      },    
+    })
+    .then(async (res) => {
+      setLoading(true);
         const det = await res.json();
-    
 console.log(JSON.stringify(det,null,2));
-
-
-        const  pay_id=det.id;
-        data.append("pay_id",pay_id);
-          
-          
-            fetch(`api/creator`, {
-            mode: 'cors',
-            method: "POST",
-            body: data,
-            headers: {
-              'accept': 'application/json',
-              'Access-Control-Allow-Origin':'*'
-            }
-          }
-          ).then(async(rec)=>{
-  
-            const creator_resp= await rec.json()
-            console.log(JSON.stringify(creator_resp,null,2))
-            return creator_resp.creator_resp.result[0].data.ID
-          })
-
-
-
-
-
         if (det?.link) {
           // Redirect user to the Razorpay payment link
          
@@ -101,16 +117,47 @@ console.log(JSON.stringify(det,null,2));
         } else {
 
           alert('Error generating payment link');
-        }})
+        }
+        prod.forEach((product) => {
+          // Add formData to each product object
+          const  pay_id=det.id;
+                
+          const productWithFormData = {
+            ...product,
+            name: formData.name,
+            email: formData.email,
+            address: formData.address,
+            number: formData.number,
+            PAY_LINK_ID:pay_id
+          };
+          console.log(JSON.stringify(productWithFormData));
+        
+          // Add each product with formData as a JSON string in the array
+          cr_data.push(productWithFormData); 
+        });
+
+        fetch(`api/creator`, {
+                    mode: 'cors',
+                    method: "POST",
+                    body:JSON.stringify(cr_data),
+                    headers: {
+                      'accept': 'application/json',
+                      'Access-Control-Allow-Origin':'*'
+                    }
+                  }
+                  ).then(async(rec)=>{
+          
+                    const creator_resp= await rec.json()
+                    console.log(JSON.stringify(creator_resp,null,2))
+                 
+                  })
+
+      })
     .catch( (error) =>{
         console.error('Error:', error);
         alert('Failed to create payment link');
+        setLoading(false);
       }) 
-      .finally (()=>{
-        setLoading(true);
-      }
-      )
-     
      
     
   }
@@ -157,11 +204,13 @@ console.log(JSON.stringify(det,null,2));
             <div>
               <label for="your_name" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Your name </label>
               <input type="text" name="name" onChange={handleInput} value={formData.name} id="your_name" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Bonnie Green" required />
+              {errors.name && <p className="text-sm text-red-500 mt-1">{errors.name}</p>}
             </div>
 
             <div>
               <label for="your_email" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Your Email* </label>
               <input type="email" name="email" onChange={handleInput} value={formData.email}  id="your_email" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="name@flowbite.com" required />
+              {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email}</p>}
             </div>
 
 
@@ -169,11 +218,14 @@ console.log(JSON.stringify(det,null,2));
             <div>
               <label for="company_name" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Address </label>
               <textarea type="text" name="address" onChange={handleInput} value={formData.address} id="company_name" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Flowbite LLC" required />
+              {errors.address && <p className="text-sm text-red-500 mt-1">{errors.address}</p>}
+      
             </div>
 
             <div>
               <label for="vat_number" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"> Phone number </label>
               <input type="number" name="number" onChange={handleInput} value={formData.number} id="vat_number" className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="9874561230" required />
+              {errors.number && <p className="text-sm text-red-500 mt-1">{errors.number}</p>}
             </div>
 
           
@@ -190,19 +242,19 @@ console.log(JSON.stringify(det,null,2));
           <div className="-my-3 divide-y divide-gray-200 dark:divide-gray-800">
             <dl className="flex items-center justify-between gap-4 py-3">
               <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Price</dt>
-              <dd className="text-base font-medium text-gray-900 dark:text-white">{price}</dd>
+              <dd className="text-base font-medium text-gray-900 dark:text-white">{total}</dd>
             </dl>
 
             <dl className="flex items-center justify-between gap-4 py-3">
-              <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Quantity</dt>
-              <dd className="text-base font-medium text-green-500">{qty}</dd>
+              <dt className="text-base font-normal text-gray-500 dark:text-gray-400">Discount</dt>
+              <dd className="text-base font-medium text-red-500">-500</dd>
             </dl>
 
            
 
             <dl className="flex items-center justify-between gap-4 py-3">
               <dt className="text-base font-bold text-gray-900 dark:text-white">Total</dt>
-              <dd className="text-base font-bold text-gray-900 dark:text-white">{total}</dd>
+              <dd className="text-base font-bold text-gray-900 dark:text-white">₹{total-500}</dd>
             </dl>
             <button type='submit' onClick={submitForm} disabled={loading} className="text-white bg-black py-3 px-14 hover:bg-gray-900 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm  text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
             {loading ? 'Generating Payment Link...' :   `Buy Now`}

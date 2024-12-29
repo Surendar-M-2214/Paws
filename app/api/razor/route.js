@@ -13,10 +13,8 @@ const name=formData.get("name");
 const email=formData.get("email");
 const amount=formData.get("amount");
 const address=formData.get("address");
-const size=formData.get("size");
 const number=formData.get("number");
-const id=formData.get("id");
-const qty=formData.get("qty");
+
 
 console.log(name+" "+" "+email+" "+amount)
   // Create Razorpay payment link
@@ -34,10 +32,8 @@ console.log(name+" "+" "+email+" "+amount)
     name:name,
     email:email,
     address:address,
-    size:size,
     number:number,
-    id:id,
-    qty:qty,
+  
   },
 
       notify: {

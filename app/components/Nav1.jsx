@@ -5,7 +5,10 @@ import React from 'react'
 import Image from 'next/image'
 import logo from '../../public/assets/logo.jpeg'
 import Link from 'next/link'
+import useCartStore from "../../lib/cartStore";
+
 function Nav1() {
+  const cart = useCartStore((state) => state.cart);
   return (
     <nav className="bg-white sticky top-0 shadow-lg shadow-slate-50  z-50 dark:bg-gray-800 antialiased">
   <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0 py-2">
@@ -42,8 +45,8 @@ function Nav1() {
             </Link>
           </li>
           <li className="shrink-0">
-            <Link href="/ " title="" className="text-sm font-medium text-gray-900 hover:text-primary-700 hover:font-semibold hover:underline dark:text-white dark:hover:text-primary-500">
-              Sell
+            <Link href="/cart " title="" className="text-sm font-medium text-gray-900 hover:text-primary-700 hover:font-semibold hover:underline dark:text-white dark:hover:text-primary-500">
+              cart({cart.length})
             </Link>
           </li>
         </ul>

@@ -18,7 +18,7 @@ export const Feature5 = (props) =>
             <img
                       alt={props.name}
                       src={props.img}
-                      className=" w-auto rounded-md bg-gray-200 object-cover hover:opacity-75  "//
+                      className=" w-auto rounded-md bg-gray-200 hover:scale-105 transition-transform duration-300 object-cover hover:opacity-75  "//
                     />
                <div className="h-20 px-2 py-1">    
             <h3 className="text-xl py-2 tracking-tight">{props.name}</h3>

@@ -129,9 +129,11 @@ const [showPopup, setShowPopup] = useState(false);
         }}
     
         > */}
+        <Link href="/cart ">
           <button onClick={handleAddToCart} className="w-full md:w-auto bg-black text-white py-2 px-5 rounded-md hover:bg-gray-700">
           <p className="px-2 text-sm">Add to Cart</p>
           </button>
+          </Link>
           {/* </Link> */}
           <button className="w-full md:w-auto border border-gray-300 text-gray-700  rounded-md hover:bg-gray-100">
           <p className="px-2 text-sm">  Add to Favourites</p>

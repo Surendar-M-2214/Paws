@@ -7,7 +7,7 @@ import LatestProducts from "../components/LatestProducts";
 import Link from "next/link";
 
 const CartPage = () => {
-  const { cart, removeFromCart, clearCart } = useCartStore();
+  const { cart, removeFromCart, clearCart,updateQuantity  } = useCartStore();
 
   const calculateSubtotal = () => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -75,6 +75,22 @@ const CartPage = () => {
                     <p className="text-xl font-bold group-hover:text-gray-600 transition duration-300">
                     ₹{item.price}
                     </p>
+                    <div className="flex items-center space-x-4">
+                    <button
+                      onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}
+                      disabled={item.quantity === 1}
+                      className="px-2 py-1 text-sm font-bold bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+                    >
+                      -
+                    </button>
+                    <p className="text-sm font-bold">{item.quantity}</p>
+                    <button
+                      onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
+                      className="px-2 py-1 text-sm font-bold bg-gray-200 rounded hover:bg-gray-300"
+                    >
+                      +
+                    </button>
+                  </div>
                   </div>
                 </div>
                 <button

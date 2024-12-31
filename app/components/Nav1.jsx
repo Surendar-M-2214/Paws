@@ -41,7 +41,7 @@ function Nav1() {
             </Link>
           </li>
           <li className="shrink-0">
-            <Link href="/ " title="" className="text-sm font-medium text-gray-900 hover:text-primary-700 hover:font-semibold hover:underline dark:text-white dark:hover:text-primary-500">
+            <Link href="/" title="" className="text-sm font-medium text-gray-900 hover:text-primary-700 hover:font-semibold hover:underline dark:text-white dark:hover:text-primary-500">
               Contact us
             </Link>
           </li>
